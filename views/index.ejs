@@ -1,0 +1,336 @@
+<!--
+=========================================================
+* Material Dashboard 2 - v=3.0.2
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+    <link href="/assets/css/all.min.css" rel="stylesheet" />
+    <title>
+      LC360
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+
+    <style>
+      .pointer {
+        cursor: pointer;
+      }
+
+      .table tbody tr:last-child td {
+        border-width: 1px;
+      }
+
+      .table-bordered> :not(caption)>*>* {
+        border-width: 1px 1px;
+      }
+
+      thead,
+      tbody,
+      tfoot,
+      tr,
+      td,
+      th {
+        border-width: 3px;
+      }
+
+    </style>
+  </head>
+
+  <body class="g-sidenav-show  bg-gray-200">
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+      <%- include('navbar') %>
+      <!-- End Navbar -->
+      <div class="container py-1 mb-3 mt-5 pt-5 ">
+
+        <div class="row">
+          <div class="col-12 card">
+            <h4 class="card-header">Heat Map</h4>
+            <div class="card-body">
+              <div class="w-100 text-end">
+                <button class="toggle-chart" style="width: 175px; border: solid gray 1px; border-radius: 10px;">Show Line Chart</button>
+              </div>
+              <div class="div-stacked-weight-chart">
+                <canvas id="canvas-stacked-weight-chart" style="height: 60vh;" class="mx-auto"></canvas>
+                <canvas id="canvas-line-weight-chart" style="height: 60vh;" class="mx-auto"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:50px">
+          <% devices.forEach(function(device) { %>
+          <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
+            <div class="card pointer h-100" onclick="window.location.href='device/<%= device.id %>'">
+              <div class="card-header p-3 pt-2">
+                <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">weekend</i>
+                </div>
+                <div class="text-end pt-1">
+                  <h4 class="mb-0"><%= device.cellname %></h4>
+                </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-body ">
+                
+                <div class="row border p-2 text-center">
+                  <div class="col-4 border">
+                    <h6>Type</h6>
+                  </div>
+                  <div class="col-8 border ">
+                    <img src="/assets/img/type/<%= device.celltype.toLowerCase() %>.png" alt="" class="w-25">
+                    <%= device.celltype.toLowerCase() === 'bin' ? 'SMART BIN' : device.celltype.toLowerCase() === 'flat' ? 'SMART SHELF' : 'SMART HANGER' %>
+                  </div>
+                  <div  class="col-4 border">
+                    <h6>Location</h6>
+                  </div>
+                  <div class="col-8 border">
+                    <%= device.location %>
+                  </div>
+                  <div  class="col-4 border">
+                    <h6>Firmware</h6>
+                  </div>
+                  <div class="col-8 border text-wrap">
+                    <% let value=device.firmware.substring(device.firmware.lastIndexOf("/")+1);
+                    let firmware=value.substring(0, value.lastIndexOf(".")) %>
+                    <%= firmware %>
+                  </div>
+                  <div  class="col-4 border">
+                    <h6>Device IP</h6>
+                  </div>
+                  <div class="col-8 border ">
+                    <%= device.senderip %>
+                  </div>
+                  <div  class="col-4 border">
+                    <h6>Device MAC</h6>
+                  </div>
+                  <div class="col-8 border ">
+                    <%= device.sendermac %>
+                  </div>
+                </div>
+
+
+                <!-- <table class="table table-bordered border-default text-center ">
+                  <tbody>
+                    <tr>
+                      <td>Type</td>
+                      <td>
+                        <img src="/assets/img/type/<%= device.celltype.toLowerCase() %>.png" alt="" class="w-25">
+                        <%= device.celltype.toLowerCase() === 'bin' ? 'SMART BIN' : device.celltype.toLowerCase() === 'flat' ? 'SMART SHELF' : 'SMART HANGER' %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Location</td>
+                      <td><%= device.location %></td>
+                    </tr>
+                    <tr>
+                      <td>Firmware</td>
+                      <td class="text-wrap"><%= device.firmware %></td>
+                    </tr>
+                    <tr>
+                      <td>Device IP</td>
+                      <td><%= device.senderip %></td>
+                    </tr>
+                    <tr>
+                      <td>Device MAC</td>
+                      <td><%= device.sendermac %></td>
+                    </tr>
+                  </tbody>
+                </table> -->
+              </div>
+              <div class="card-footer p-3">
+                <p class="mb-0"><span class="text-success text-sm font-weight-bolder"></span></p>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </main>
+
+    <!--   Core JS Files   -->
+    <script src="./assets/js/core/popper.min.js"></script>
+    <script src="./assets/js/core/bootstrap.min.js"></script>
+    <script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="./assets/js/plugins/chartjs.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+
+    <script>
+      var win = navigator.platform.indexOf('Win') > -1;
+      if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+          damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+      }
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="./assets/js/material-dashboard.min.js?v=3.0.2"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1"></script>
+
+    <script>
+      const red = ['#ff0000', '#ffa07a', '#f08080', '#dc143c', '#800000'];
+      $.post('/charts/allheatmap', {}, function (response) {
+        let output = response.output;
+        let values = [];
+        let devices = [];
+        let data = [];
+        for (let o of output) {
+          if (values.indexOf(o.period) < 0) {
+            values.push(o.period);
+          }
+          if (devices.indexOf(o.cellname) < 0) {
+            devices.push(o.cellname);
+          }
+        }
+        values = values.sort((a, b) => a - b);
+        for (let devicei in devices) {
+          let device = devices[devicei];
+          let datum = { label: device, data: [], backgroundColor: red[devicei] };
+          for (let value of values) {
+            let t = output.find(o => o.period === value && o.cellname === device);
+            if (t) {
+              datum.data.push(t.averageweight);
+            }
+            else {
+              datum.data.push(0);
+            }
+          }
+
+          data.push(datum);
+        }
+
+        values = values.map(v => moment(v).format("MM/DD hh:mm A"));
+        new Chart(document.getElementById('canvas-stacked-weight-chart'), {
+          type: 'bar',
+          data: {
+            labels: values,
+            datasets: data
+          },
+          options: {
+            responsive: false,
+            // legend: {
+            //   position: 'right' // place legend on the right side of chart
+            // },
+            plugins: {
+                legend: {
+                    display: true,
+                    // position: 'right' 
+                },
+                tooltip: {
+                    yAlign: "bottom",
+                    displayColors: false,
+                    callbacks: {
+                        label: function (tooltipItem, data, value) {
+                            return tooltipItem.dataset.label +": " +tooltipItem.formattedValue +" grams";
+                        },
+                    },
+                },
+            },
+            scales: {
+              x: {
+                stacked: true,
+              },
+              y: {
+                stacked: true,
+                title: {
+                  display: true,
+                  text: 'Weight (grams)'
+                }
+              }
+            }
+          }
+        });
+
+        new Chart(document.getElementById('canvas-line-weight-chart'), {
+          type: 'line',
+          data: {
+            labels: values,
+            datasets: data
+          },
+          options: {
+            responsive: false,
+            // legend: {
+            //   position: 'right' // place legend on the right side of chart
+            // },
+            plugins: {
+                legend: {
+                    display: true,
+                    // position: 'right' 
+                },
+                tooltip: {
+                    yAlign: "bottom",
+                    displayColors: false,
+                    callbacks: {
+                        label: function (tooltipItem, data, value) {
+                            return tooltipItem.dataset.label +": " +tooltipItem.formattedValue +" grams";
+                        },
+                    },
+                },
+            },
+            scales: {
+              x: {
+                // stacked: true,
+              },
+              y: {
+                // stacked: true,
+                title: {
+                  display: true,
+                  text: 'Weight (grams)'
+                }
+              }
+            }
+          }
+        });
+
+        $('#canvas-line-weight-chart').hide();
+      });
+
+      $('.toggle-chart').on('click', function () {
+        if ($('.toggle-chart').html() === "Show Line Chart") {
+          $('#canvas-stacked-weight-chart').hide();
+          $('#canvas-line-weight-chart').show();
+          $('.toggle-chart').html("Show Bar Chart")
+        }
+        else {
+          $('#canvas-stacked-weight-chart').show();
+          $('#canvas-line-weight-chart').hide();
+          $('.toggle-chart').html("Show Line Chart")
+        }
+      });
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,9 @@
+POST http://localhost:3005/charts/weight
+Content-Type: application/json
+
+{
+    "topicName": "CMS_709598A4AE30/PUB",
+    "interval": 5,
+    "startTime": 1652787323410,
+    "endTime": 1652787383410
+}

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <link href="/assets/css/all.min.css" rel="stylesheet" />
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+        <title>LC360</title>
+        <style>
+            .buttons{
+                width: 50px;
+                height: 30px;
+                font-size: 12px;
+            }
+            #firmware-activity-info h6{
+                font-size: 12px;
+            }
+            #firmware-calibration-info h6{
+                font-size: 12px;
+            }
+            .firmware-title h6{
+                font-size: 14px;
+                margin-bottom: 0px;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div id="toast-container" style="position: fixed; top: 0; right: 0;"></div>
+        <div id="modal-loader" style="position:fixed; top: 0px; left:0px; right:0px; bottom:0px; z-index: 1000; background-color: rgba(200, 200, 50, 0.7); text-align: center;">
+            <img src="/assets/img/loading.gif" alt="" class="" style="width: 250px; margin-top: 50vh; transform: translateY(-50%);">
+        </div>
+        <div id="firmware-loader" style="position:fixed; top: 0px; left:0px; right:0px; bottom:0px; z-index: 1000; background-color: rgba(200, 200, 50, 0.7); text-align: center;">
+            <img src="/assets/img/firmware-latest.svg" alt="" class="" style="width: 50vw; margin-top: 50vh; transform: translateY(-50%);">
+            <img src="/assets/img/processing.gif" alt="" style="position: absolute; width: 100px; left: 46%; top: 43vh;">
+            <div id="firmware-info" style="position: absolute; top:72vh; width: 100%; ">
+               
+            </div>
+        </div>
+        <div class="container">
+            <section class="container col-7" id="section1">
+                <form role="form" method="post" action="/edit-device">
+                    <input type="hidden" name="id" value="<%= data.id %>" />
+                    <h2 class="text-center mt-5">Edit Load Cell</h2>
+                    <h6 class="text-end"><a href="/device-list">List <i class="fa-solid fa-list me-2 ms-1"></i></a></h6>
+                    <div class="row mt-5">
+                        <div class="col-5">
+                            <h6> Load Cell Name</h6>
+                        </div>
+                        <div class="col-7">
+                            <input class="w-100 p-1" type="text" name="cellname" value="<%= data.cellname %>" />
+                        </div>
+                        <div class="col-5">
+                            <h6 class="mt-3">Load Cell Type</h6>
+                        </div>
+                        <div class="col-7">
+                            <select class="w-100 mt-3 p-2 border-secondary border-1 bg-white" name="celltype" id="cars" value="">
+                                <option value="Flat" <%= data.celltype === 'Flat' ? 'selected' : '' %>>Flat</option>
+                                <option value="Hanging" <%= data.celltype === 'Hanging' ? 'selected' : '' %>>Hanging</option>
+                                <option value="Bin" <%= data.celltype === 'Bin' ? 'selected' : '' %>>Bin</option>
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <h6 class="mt-3">Location</h6>
+                        </div>
+                        <div class="col-7">
+                            <input class="w-100 mt-3 p-1" type="text" name="location" value="<%= data.location %>" />
+                        </div>
+                        <div class="col-5">
+                            <h6 class="mt-3">Topic Name</h6>
+                        </div>
+                        <div class="col-7">
+                            <input class="w-100 mt-3 p-1 bg-gray-200" type="text" name="topicname" value="<%= data.topicname %>" readonly/>
+                        </div>
+                        <div class="col-5 d-none">
+                            <h6 class="mt-3">Firmware</h6>
+                        </div>
+                        <div class="col-7 d-none">
+                            <input class="w-100 mt-3 p-1 bg-gray-200" type="text" name="firmware" value="<%= data.firmware %>" readonly/>
+                        </div>
+                        <div class="col-5">
+                            <h6 class="mt-3">Min Threshold (grams)</h6>
+                        </div>
+                        <div class="col-7">
+                            <input class="w-100 mt-3 p-1" type="text" name="minthreshold" value="<%= data.minload %>" />
+                        </div>
+                        <div class="col-5">
+                            <h6 class="mt-3">Max Threshold (grams)</h6>
+                        </div>
+                        <div class="col-7">
+                            <input class="w-100 mt-3 p-1" type="text" name="maxthreshold" value="<%= data.maxload %>" />
+                        </div>
+                        <div class="col-5">
+                            <h6 class="mt-3">Total Capacity (grams)</h6>
+                        </div>
+                        <div class="col-7">
+                            <input class="w-100 mt-3 p-1" type="text" name="capacity" value="<%= data.capacity %>" />
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-6">
+                            <button type="button" class="btn btn-danger w-100" onclick="window.location.href='/device-list'">Cancel</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-success w-100">Submit</button>
+                        </div>
+                    </div>
+                </form>
+
+            </section>
+
+            <div id="accordion" class="my-3">
+                <h3>Calibrate Weight</h3>
+                <div id="section2" class="container">
+                    <h6>Weight Callibration </h6>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <img src="/assets/img/weight-calibration.jpg" alt="" class="w-100">
+                        </div>
+                        <div class="col-9 my-auto">
+                            <table class="text-center">
+                                <tr>
+                                    <td>Set Loadcell Calibration</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>
+                                        <input style="width: 200px;" type="text" id="calibration-weight" placeholder="500" />
+                                        <span class=" text-dark">g</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>
+                                        <button type="submit" class="btn btn-secondary" style="font-size: 12px;"  id="calibrate-weight-button">Calibrate</button>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>Set Loadcell Calibration to "0" grams</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>
+                                        <button type="submit" class="btn btn-secondary" style="width:200px;" id="calibrate-weight-zero">Measure zero</button>
+                                    </td>
+                                </tr> -->
+                            </table>
+                           
+                        </div>
+                    </div>
+                    <div id="firmware-calibration" class="mt-5">
+                        <section class="overflow-hidden">
+                            <div class="row p-2 text-white bg-dark" >
+                            <h6 class="text-white text-center col-3">
+                                <img src="/assets/img/calibration-seq.svg" class="ms-1" style="width:25px"/> <span class="ms-1">Calibration Sequence</span>
+                            </h6>
+                               <h6 class="text-white text-center col-6">
+                                <img src="/assets/img/payload.svg" class="me-1" style="width:25px"/> <span class="ms-1">Payload</span>
+                            </h6> 
+                               <h6 class="text-white text-center col-3">
+                                <img src="/assets/img/time.svg" class="ms-1" style="width:30px"/> <span class="ms-1">Time</span>
+                            </h6>
+                            </div>
+                            <main id="firmware-calibration-info">
+                              
+                            </main>
+                        </section>
+                    </div>
+                </div>
+            
+                <h3>Firmware Update</h3>
+                <div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <img src="/assets/img/firmware-update.png" alt="" class="w-100">
+                        </div>
+                        <div class="col-9 my-auto">
+                            <table>
+                                <tr>
+                                    <td>Firmware Image Path</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>
+                                        <input style="width: 200px;" class="p-1" type="text" onblur="validate_firmware_path()" id="firmware-path" />
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <button type="submit" class="btn btn-secondary mb-0 p-2" style="width:170px; font-size: 12px;" id="update-firmware">Update Firmware</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td><h6 id="error-firmware-path" class="text-danger"></h6></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                             
+                            </table>
+
+                          
+                        </div>
+                    </div>
+                    <div id="firmware-activity" class="mt-5">
+                        <section class="overflow-hidden">
+                            <div class="row p-2 text-white bg-dark firmware-title">
+                                <h6 class="text-white text-center col-2">
+                                  <span>Topic Name</span>
+                               </h6>   
+                               <h6 class="text-white text-center col-3">
+                                <span>Loadcell/Type</span>
+                             </h6>  
+                            <h6 class="text-white text-center col-2">
+                                 <img src="/assets/img/fota-seq.svg" class="me-2" style="width:25px"/><span>FOTA Sequence</span>
+                            </h6>
+                               <h6 class="text-white text-center col-3">
+                                <img src="/assets/img/fota-file.svg" class="me-1" style="width:25px"/><span>File Name</span>
+                            </h6> 
+                               <h6 class="text-white text-center col-2">
+                            <img src="/assets/img/time.svg" class="me-1" style="width:30px"/>     <span>Time</span>
+                            </h6>
+                            </div>
+                            <main id="firmware-activity-info">
+                              
+                            </main>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+    </body>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+    <script>
+        $('#modal-loader').hide();
+        $('#firmware-loader').hide();
+
+        $(function () {
+            $("#accordion").accordion({
+                collapsible: true,
+                heightStyle: 'content'
+            });
+        });
+    </script>
+
+    <script>
+        const topicName = '<%= data.topicname %>';
+        const Loadcell='<%=data.cellname %>/<%= data.celltype %>';
+        $('#calibrate-weight-button').on('click', function () {
+            let weight = $('#calibration-weight').val();
+            calibrate(topicName, weight);
+        });
+
+        $('#calibrate-weight-zero').on('click', function () {
+            calibrate(topicName, 0);
+        });
+
+        function calibrate(topicName, weight) {
+            $('#modal-loader').show();
+            $.post('/charts/calibrateweight', { topicName: topicName, weight: weight }).done(function (response) {
+                setTimeout(function () {
+                    checkComplete(response.output.id, 'Weight Calibration');
+                }, 1000);
+            }).catch(function (err) {
+
+            });
+        }
+
+        function checkComplete(id, module) {
+            $.post('/charts/getactivity', { id: id }).done(function (response) {
+                if(response.output.status === 3){
+                    $('#modal-loader').hide();
+                    if(confirm("Please place the weight and the place ok.")){
+                        $.post("/charts/placedWeight", {id:id, status:11}).done(function(response){
+                            if(response.status === "SUCCESS"){
+                                setTimeout(function () {
+                                    checkComplete(id, "Weight Calibration");
+                                }, 1000);
+                            }
+                        })
+                    }
+                }else if (response.output.status === 100) {
+                    $('#modal-loader').hide();
+                    if(module === "Firmware Update"){
+                        $("#firmware-loader").hide();
+                        details=response.output.details.substring(7);
+                        details=details.substring(details.lastIndexOf('/')+1);
+                        for(x of response.output.events){
+                            if(x.name === "FIRMWARE_UPGRADE_REQUEST_SENT"){
+                                x.name = "FOTA_INSTANTIATED"
+                            }
+                            if(x.name === "OTA_STARTED"){
+                                x.name = "FOTA_STARTTIME"
+                            }
+                            if(x.name === "OTA_ENDED"){
+                                x.name = "FOTA_ENDTIME"
+                            }
+                            if(x.name === "OTA_FAILED"){
+                                x.name = "FOTA_FAILED"
+                            }
+                            if(x.name === "GET_UPDATED_VERSION"){
+                                x.name = "FOTA_SUCCESS"
+                            }
+                            if(x.name === "PRE_VERSION"){
+                                x.name = "PREVIOUS VERSION";
+                            }
+                            if(x.name === "POST_VERSION"){
+                                x.name = "UPDATED VERSION";
+                            }
+                        }
+                        let status="success";
+                        if(response.output.events.length <= 5){
+                            status="warning";
+                        }
+                                    $("#firmware-activity-info").prepend(`<div class="border border-2 rounded border-${status} my-2" id="${response.output.starttime}">
+                                </div>`)
+                                response.output.events.reverse().forEach(y=>{
+                                if(y.name === "FOTA_SUCCESS"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                                <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted "><img src="/assets/img/success.svg" class="me-2" style="width:25px" />${details}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                        }else if(y.name === "PREVIOUS VERSION" || y.name === "UPDATED VERSION"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                                <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${y.payload.substring(y.payload.lastIndexOf('/')+1, y.payload.lastIndexOf("."))}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)          
+                                }else if(y.name !== "GET_CURRENT_VERSION" && y.name !== "PRE_VERSION" && y.name !== "POST_VERSION"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${details}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                }
+                            
+                            })
+                    }
+                    if(module === "Weight Calibration"){
+                        for(x of response.output.events){
+                            x.payload = x.payload.replace(" ","").replace(new RegExp(/\"/,"g"),"").replace(new RegExp(/{/,"g"),"").replace(new RegExp(/}/,"g"),"");
+                            if(x.name === "WEIGHT_SENT_ACKNOWLEDGED"){
+                                x.name = "WEIGHT_ACKNOWLEDGED";
+                            }
+                            if(x.name === "CALIBRATION_COMPLETES"){
+                                x.name ="CALIBRATION_COMPLETED [SUCCESS]";
+                                x.payload=`<img src="/assets/img/success.svg" style="width:20px" /> ${x.payload}`
+                            }
+                            if(x.name === "WEIGHT_SENT"){
+                                x.name ="PLACE_WEIGHT";
+                            }
+                        }
+                        let status="warning";
+                        if(response.output.events.length === 4){
+                            status="success";
+                        }
+                        $("#firmware-calibration-info").prepend(`<div class="border border-2 rounded border-${status} my-2" id="${response.output.starttime}">
+                    </div>`)
+                response.output.events.reverse().forEach(y=>{
+                    $("#"+response.output.starttime).append(`
+                     <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-3 text-center text-muted ">${y.name}</h6>
+                                    <h6 class="col-6 text-center text-muted ">${y.payload}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                 </div>`)
+                })
+                    }
+                    $('#toast-container').append(`    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header bg-success text-white">
+                            <strong class="me-auto">${module}</strong>
+                            </div>
+                            <div class="toast-body">
+                                Completed Successfully
+                            </div>
+                        </div>`);
+
+                    $('.toast').show();
+                    setTimeout(function () {
+                        $('.toast').remove();
+                    }, 3000);
+                }
+                else if (response.output.status === -100) {
+                    $('#modal-loader').hide();
+                    if(module === "Firmware Update"){
+                        $("#firmware-loader").hide();
+                        details=response.output.details.substring(7);
+                        details=details.substring(details.lastIndexOf('/')+1);
+                        for(x of response.output.events){
+                            if(x.name === "FIRMWARE_UPGRADE_REQUEST_SENT"){
+                                x.name = "FOTA_INSTANTIATED"
+                            }
+                            if(x.name === "OTA_STARTED"){
+                                x.name = "FOTA_STARTTIME"
+                            }
+                            if(x.name === "OTA_ENDED"){
+                                x.name = "FOTA_ENDTIME"
+                            }
+                            if(x.name === "OTA_FAILED"){
+                                x.name = "FOTA_FAILED"
+                            }
+                            if(x.name === "PRE_VERSION"){
+                                x.name = "PREVIOUS VERSION";
+                            }
+                            if(x.name === "POST_VERSION"){
+                                x.name = "UPDATED VERSION";
+                            }
+                        }
+                        let status="danger";
+                        if(response.output.events.length <= 5){
+                            status="warning";
+                        }
+                                    $("#firmware-activity-info").prepend(`<div class="border border-2 rounded border-${status} my-2" id="${response.output.starttime}">
+                                </div>`)
+                                response.output.events.reverse().forEach(y=>{
+                                if(y.name === "FOTA_FAILED"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted "><img src="/assets/img/failed.svg" class="me-2" style="width:25px" />${details}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                }else if(y.name === "PREVIOUS VERSION" || y.name === "UPDATED VERSION"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${y.payload.substring(y.payload.lastIndexOf('/')+1, y.payload.lastIndexOf("."))}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                // }else if(y.name === "FOTA_ENDTIME"){
+                                //     $("#"+response.output.starttime).append(`
+                                // <div class="row  mt-2 border-bottom">
+                                //                 <h6 class="col-3 text-center text-muted ">${y.name}</h6>
+                                //                 <h6 class="col-6 text-center text-muted ">${details}</h6>
+                                //                 <h6 class="col-3 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                //             </div>`)
+                                }else if(y.name !== "GET_CURRENT_VERSION" && y.name !== "PRE_VERSION" && y.name !== "POST_VERSION"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${details}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                }
+                            })
+                    }
+
+                    if(module === "Weight Calibration"){
+                        for(x of response.output.events){
+                              x.payload = x.payload.replace(" ","").replace(new RegExp(/\"/,"g"),"").replace(new RegExp(/{/,"g"),"").replace(new RegExp(/}/,"g"),"");
+                            if(x.name === "WEIGHT_SENT_ACKNOWLEDGED"){
+                                x.name = "WEIGHT_ACKNOWLEDGED";
+                            }
+                            if(x.name === "CALIBRATION_COMPLETES"){
+                                x.name ="CALIBRATION_COMPLETED [SUCCESS]";
+                                x.payload=`<img src="/assets/img/success.svg" style="width:20px" /> ${x.payload}`
+                            }
+                            if(x.name === "WEIGHT_SENT"){
+                                x.name ="PLACE_WEIGHT";
+                            }
+
+                        }
+                        let status="warning";
+                        if(response.output.events.length === 4){
+                            status="danger";
+                        }
+                        $("#firmware-calibration-info").prepend(`<div class="border border-2 rounded border-${status} my-2" id="${response.output.starttime}">
+                    </div>`)
+                response.output.events.reverse().forEach(y=>{
+                    $("#"+response.output.starttime).append(`
+                     <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-3 text-center text-muted ">${y.name}</h6>
+                                    <h6 class="col-6 text-center text-muted ">${y.payload}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                 </div>`)
+                })
+                    }
+
+                    $('#toast-container').append(`<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header bg-danger text-white">
+                            <strong class="me-auto">${module}</strong>
+                            </div>
+                            <div class="toast-body">
+                                Process Failed
+                            </div>
+                        </div>`);
+
+                    $('.toast').show();
+                    setTimeout(function () {
+                        $('.toast').remove();
+                    }, 3000);
+                }
+                else {
+                    setTimeout(function () {
+                        checkComplete(id, module);
+                    }, 1000);
+                }
+            });
+        }
+
+        $('#update-firmware').on('click', function () {
+            let path = $('#firmware-path').val();
+            if (path.substring(path.length-4)===".bin") {
+                  $('#firmware-loader').show();
+            $.post('/charts/firmware', { topicName: topicName, path: path }).done(function (response) {
+                setTimeout(function () {
+                    checkComplete(response.output.id, 'Firmware Update');
+                }, 1000);
+            }).catch(function (err) {
+
+            });
+            }else{
+                if(path === ""){
+                $("#error-firmware-path").html("Please Enter Valid URL.")
+                }else{
+                    $("#error-firmware-path").html("Invalid URL.")
+                }
+            }
+         
+        });
+
+        
+
+
+        $.post("/charts/getactivities",{topicName: topicName, type:"firmware"}).done(function(response){
+            for(let x of response.output){
+                x.details=x.details.substring(7);
+                x.details= x.details.substring(x.details.lastIndexOf('/') + 1);
+                x.activityevent1 = [];
+                for(let y of x.activityevent){
+                    let z = y.substring(1,y.length-1).split(",");
+                    let z1 = {};
+                    for(let z2 of z){
+                        let z3 = z2.split(":");
+                        if(z3[1]=== " \"{\"VERSION\""){
+                            z1[z3[0]] = z3[2].substring(z3[2].lastIndexOf("/")+1, z3[2].lastIndexOf('.'));
+                        }else{
+                            z1[z3[0]] = z3[1].replace(" ","").replace(new RegExp(/\"/,"g"),"").replace(new RegExp(/{/,"g"),"");
+                        }
+                        }
+                    if(z1.name === "FIRMWARE_UPGRADE_REQUEST_SENT"){
+                        z1.name = "FOTA_INSTANTIATED"
+                    }
+                    if(z1.name === "OTA_STARTED"){
+                        z1.name = "FOTA_STARTTIME"
+                    }
+                    if(z1.name === "OTA_ENDED"){
+                        z1.name = "FOTA_ENDTIME"
+                    }
+                    if(z1.name === "OTA_FAILED"){
+                        z1.name = "FOTA_FAILED"
+                        // x.details= z1.payload=`<img src="/assets/img/.jpeg" style="width:20px" /> ${x.details}`
+                    }
+                    if(z1.name === "GET_UPDATED_VERSION"){
+                        z1.name = "FOTA_SUCCESS"
+                    }
+                    if(z1.name === "PRE_VERSION"){
+                        z1.name = "PREVIOUS VERSION";
+                    }
+                    if(z1.name === "POST_VERSION"){
+                        z1.name = "UPDATED VERSION";
+                    }
+                    x.activityevent1.push(z1);
+                }
+            }
+            if(response.output.length>0){
+            response.output.forEach((x,index)=>{
+                let status="success";
+                if(x.activityevent1.length <= 5){
+                    status = "warning"
+                }else{
+                    x.activityevent1.forEach(z=>{
+                        if(z.name === "FOTA_FAILED"){
+                            status="danger"
+                        }
+                    })
+                }
+                $("#firmware-activity-info").append(`<div class="border border-2 rounded border-${status} my-2" id="firmware-${index}">
+                    </div>`)
+                x.activityevent1.reverse().forEach(y=>{
+                    if(y.name !== "GET_CURRENT_VERSION" && y.name !== "PRE_VERSION" && y.name !== "POST_VERSION"){
+                    if(y.name === "FOTA_FAILED"){
+                        $("#firmware-"+index).append(`
+                     <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                    <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                    <h6 class="col-3 text-center text-muted "><img src="/assets/img/failed.svg" class="me-2" style="width:25px" />${x.details}</h6>
+                                    <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                 </div>`)
+                    }else if(y.name === "FOTA_SUCCESS"){
+                        $("#firmware-"+index).append(`
+                     <div class="row  mt-2 border-bottom">
+                        <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                    <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                    <h6 class="col-3 text-center text-muted "><img src="/assets/img/success.svg" class="me-2"  style="width:25px" />${x.details}</h6>
+                                    <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                 </div>`)
+                 
+                                }else if(y.name === "PREVIOUS VERSION" || y.name === "UPDATED VERSION"){
+                        $("#firmware-"+index).append(`
+                     <div class="row  mt-2 border-bottom">
+                                   <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                    <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${y.payload}</h6>
+                                    <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                 </div>`)
+                 
+                                }else{
+                        $("#firmware-"+index).append(`
+                     <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${Loadcell}</h6>
+                                    <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${x.details}</h6>
+                                    <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                 </div>`)
+                    }
+                }
+                })
+            })
+        }
+        });
+
+
+        $.post("/charts/getactivities",{topicName: topicName, type:"calibrate"}).done(function(response){
+            for(let x of response.output){
+                x.details=x.details.substring(7);
+                x.activityevent1 = [];
+                for(let y of x.activityevent){
+                    let z = y.substring(1,y.length-1).split(",");
+                    let z1 = {};
+                    for(let z2 of z){
+                        let z3 = z2.split(":");
+                        let z4 = "";
+                        for(let i=1;i<z3.length;i++){
+                            z4 += z3[i];
+                            if(i>=1 && i!==z3.length-1){
+                                z4 += ":";
+                            }
+                        }
+                        z1[z3[0]] = z4.replace(" ","").replace(new RegExp(/\"/,"g"),"").replace(new RegExp(/{/,"g"),"").replace(new RegExp(/}/,"g"),"");
+                    }
+                    if(z1.name === "WEIGHT_SENT_ACKNOWLEDGED"){
+                        z1.name = "WEIGHT_ACKNOWLEDGED";
+                    }
+                    if(z1.name === "CALIBRATION_COMPLETES"){
+                        z1.name ="CALIBRATION_COMPLETED [SUCCESS]";
+                        z1.payload=`<img src="/assets/img/success.svg" style="width:20px" /> ${z1.payload}`
+                    }
+                    if(z1.name === "WEIGHT_SENT"){
+                        z1.name ="PLACE_WEIGHT";
+                    }
+                    x.activityevent1.push(z1);
+                }
+            }
+            if(response.output.length>0){
+            
+            response.output.forEach((x,index)=>{
+                let status="danger";
+                    x.activityevent1.forEach(z=>{
+                        if(z.name === "CALIBRATION_COMPLETED [SUCCESS]"){
+                            status="success"
+                        }
+                    })
+                
+                    $("#firmware-calibration-info").append(`<div class="border border-2 rounded border-${status} my-2" id="calibration-${index}">
+                    </div>`)
+                x.activityevent1.reverse().forEach(y=>{
+                    $("#calibration-"+index).append(`
+                     <div class="row  mt-2 border-bottom">
+                                    <h6 class="col-3 text-center text-muted ">${y.name}</h6>
+                                    <h6 class="col-6 text-center text-muted ">${y.payload}</h6>
+                                    <h6 class="col-3 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                 </div>`)
+                })
+            })
+        }
+        });
+
+
+        function validate_firmware_path(){
+            let path = $('#firmware-path').val();
+            if (path.substring(path.length-4)===".bin") {
+                $("#error-firmware-path").html("")
+            }
+        }
+    </script>
+
+</html>

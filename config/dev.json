@@ -1,0 +1,6 @@
+{
+    "envName": "dev",
+    "port": 3005,
+    "secure": false,
+    "mq": "mqtt://54.167.80.206:1883"
+}

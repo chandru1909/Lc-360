@@ -1,0 +1,432 @@
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.2
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+        <link rel="icon" type="image/png" href="assets/img/favicon.png">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+        <title>
+            LC360
+        </title>
+        <!--     Fonts and icons     -->
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/all.min.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+
+        <style>
+            @font-face {
+                font-family: 'SEGMENT';
+                src: url('/assets/fonts/7segment.woff') format('woff');
+                font-weight: normal;
+                font-style: normal;
+            }
+
+        </style>
+
+        <style>
+            .main-content {}
+
+        </style>
+    </head>
+
+    <body class="g-sidenav-show  bg-gray-200">
+
+        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+            <!-- Navbar -->
+            <nav class="navbar navbar-main navbar-expand-lg px-0 bg-white w-100" id="navbarBlur" style="position: fixed;top:0;z-index: 1;" navbar-scroll="true">
+                <div class="container py-1 px-3">
+                    <nav aria-label="breadcrumb">
+                        <h3 class="font-weight-bolder mb-0">
+                            LC360
+                        </h3>
+                    </nav>
+
+                    <div class="collapse  navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/device/<%= liveUrl %>">Live</a></li>
+                                    <li class="breadcrumb-item text-sm text-danger active" aria-current="page"><i class="fa fa-clock"></i> 24 Hours: <span id="lbl-24-hours"></span></li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <ul class="navbar-nav justify-content-end">
+                            <li class="nav-item ">
+                                <a href="/" class="nav-link text-body font-weight-bold px-0">
+                                    <i class="fa-solid fa-home me-sm-3"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                                    <i class="fa fa-user me-sm-1"></i>
+                                    <span class="d-sm-inline d-none"><%= name %></span>
+                                </a>
+                            </li>
+                            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                                    <div class="sidenav-toggler-inner">
+                                        <i class="sidenav-toggler-line"></i>
+                                        <i class="sidenav-toggler-line"></i>
+                                        <i class="sidenav-toggler-line"></i>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </nav>
+            <!-- End Navbar -->
+
+            <div class="container-fluid py-2 mt-5 pt-5">
+                <div class="row">
+                    <div class="col-4" id="load-cell-details">
+                        <div class="card">
+                            <h5 class="card-header">Load Cell Details</h5>
+                            <div class="card-body">
+                                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                                    <div class="col-5 text-wrap text-end">Load Cell Name: </div>
+                                    <div class="col-7 text-wrap text-start"> <%= device.cellname %></div>
+                                </div>
+                                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                                    <div class="col-5 text-wrap text-end">Load Cell Type: </div>
+                                    <div class="col-7 text-wrap text-start">
+                                        <img src="/assets/img/type/<%= device.celltype.toLowerCase() %>.png" alt="" class="w-25">
+                                        <%= device.celltype.toLowerCase() === 'bin' ? 'SMART BIN' : device.celltype.toLowerCase() === 'flat' ? 'SMART SHELF' : 'SMART HANGER' %>
+                                    </div>
+                                </div>
+                                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                                    <div class="col-5 text-wrap text-end">Location: </div>
+                                    <div class="col-7 text-wrap text-start"> <%= device.location %></div>
+                                </div>
+                                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                                    <div class="col-5 text-wrap text-end">Topic Name: </div>
+                                    <div class="col-7 text-wrap text-start"> <%= device.topicname %></div>
+                                </div>
+                                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                                    <div class="col-5 text-wrap text-end">Firmware: </div>
+                                    <div class="col-7 text-wrap text-start">
+                                         <% let value=device.firmware.substring(device.firmware.lastIndexOf("/")+1);
+                                        let firmware=value.substring(0, value.lastIndexOf(".")) %>
+                                        <%= firmware %></div>
+                                </div>
+                                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                                    <div class="col-5 text-wrap text-end">Min/Max Threshold: </div>
+                                    <div class="col-7 text-wrap text-start"> <%= device.minload %>/<%= device.maxload %> grams</div>
+                                </div>
+                                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                                    <div class="col-5 text-wrap text-end"> Total Capacity: </div>
+                                    <div class="col-7 text-wrap text-start">
+                                        <%= Math.round(device.capacity/1000) %> Kg/<%= Math.round((device.capacity * 2.20462) / 1000) %> Pounds
+                                    </div>
+                                </div>
+                                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                                    <div class="col-5 text-wrap text-end">Calibrated Weight: </div>
+                                    <div class="col-7 text-wrap text-start" id="calibrated-weight"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8" id="load-cell-onboard">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <img src="/assets/img/new-loadcell.png" style="width:100%;" />
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div id="load-cell-start-date" class="mx-3 text-center d-block" type="text" >&nbsp;</div>
+                                        <div id="load-cell-start-time" class="mx-3 text-center d-block" type="text" style="font-size: 50px; color: black;">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="accordion" class="mt-3">
+                    <h3>Weight</h3>
+                    <div>
+                        <div class="row mt-1">
+                            <div class="col-12">
+                                <div class="card">
+                                    <h5 class="card-header">Heat Map</h5>
+                                    <div class="card-body align-items-center d-flex justify-content-center">
+                                        <div id="div-weight-heat-map-chart" style='width:66%;'>
+                                            <canvas id="canvas-weight-heat-map-chart"></canvas>
+                                        </div>
+                                        <div class="ps-5">
+                                            <style>
+                                                .box {
+                                                    height: 20px;
+                                                    width: 20px;
+                                                    border: 1px solid black;
+                                                }
+
+                                            </style>
+                                            <table id="tbl-heat-map">
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12 card">
+                                <h5 class="card-header">Weight change over period of time</h5>
+                                <div class="card-body">
+                                    <div id="div-weight-line-chart" style="height:40vh;">
+                                        <canvas id="canvas-weight-line-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="temp-and-humidity-block">Temperature &amp; Humidity</h3>
+                    <div class="temp-and-humidity-block">
+                        <div class="mt-1 row">
+                            <div class="card col-12">
+                                <h5 class="card-header">Temperature change over period of time</h5>
+                                <div class="card-body">
+                                    <div id="div-temperature-line-chart" style="height: 40vh;">
+                                        <canvas id="canvas-temperature-line-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="card col-12">
+                                <h5 class="card-header">Humidity change over period of time</h5>
+                                <div class="card-body">
+                                    <div id="div-humidity-line-chart" style="height: 40vh;">
+                                        <canvas id="canvas-humidity-line-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="battery-block">Battery</h3>
+                    <div class="battery-block">
+                        <div class="row">
+                            <% if(device.topicname === 'CMS_709598A4AE30/PUB') {
+                              %>
+                            <div class="col-12 text-end">
+                                <div style="position: relative;">
+                                    <div class="d-none" id="battery-info-details" style="position: absolute;z-index: 9999;right: 50px;background-color: #FFF;border: solid gray 1px;padding: 20px;border-radius: 20px;top: 0px;">
+                                        <table>
+                                            <tr>
+                                                <td>Standard Voltage</td>
+                                                <td style="padding-left: 10px; text-align: left;">3.7 V</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rated Capacity</td>
+                                                <td style="padding-left: 10px; text-align: left;">1000 mAh</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Working Current</td>
+                                                <td style="padding-left: 10px; text-align: left;">1.5 A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Over current protection</td>
+                                                <td style="padding-left: 10px; text-align: left;">2~3 A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Overcharge limit pressure</td>
+                                                <td style="padding-left: 10px; text-align: left;">4.25±0.05 V</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Over-voltage limit pressure</td>
+                                                <td style="padding-left: 10px; text-align: left;">2.45±0.30 V</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Charge current time: Standard Charging:</td>
+                                                <td style="padding-left: 10px; text-align: left;">0.2C (8 hours)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fast charging</td>
+                                                <td style="padding-left: 10px; text-align: left;">0.5C (2.5 hours)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Maximum charging current</td>
+                                                <td style="padding-left: 10px; text-align: left;">0.5 C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Continuous Discharge Current</td>
+                                                <td style="padding-left: 10px; text-align: left;">0.5 C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Maximum discharge current</td>
+                                                <td style="padding-left: 10px; text-align: left;">1C</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <a href="javascript:void(0)" id="battery-info" onclick="$('#battery-info-details').toggleClass('d-none');" onmouseover="$('#battery-info-details').removeClass('d-none');" onmouseout="$('#battery-info-details').addClass('d-none');"><i class="fa fa-circle-info fa-2x"></i></a>
+                            </div>
+                            <%
+                            } %>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="card col-12">
+                                <h5 class="card-header">Battery % over period of time</h5>
+                                <div class="card-body">
+                                    <div id="div-batterypercentage-line-chart" style="height: 40vh;">
+                                        <canvas id="canvas-batterypercentage-line-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="card col-6">
+                                <h5 class="card-header">Battery Voltage change over last 24 Hrs</h5>
+                                <div class="card-body">
+                                    <div id="div-battery-voltage-line-chart" style="height: 40vh;">
+                                        <canvas id="canvas-battery-voltage-line-chart"></canvas>
+                                    </div>
+                                    <div id="currentBatteryVoltage" class="w-100 text-center mt-2" style="font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card col-6">
+                                <h5 class="card-header">Battery Current change over last 24 Hrs</h5>
+                                <div class="card-body">
+                                    <div id="div-battery-current-line-chart" style="height: 40vh;">
+                                        <canvas id="canvas-battery-current-line-chart"></canvas>
+                                    </div>
+                                    <div id="currentBatteryCurrent" class="w-100 text-center mt-2" style="font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="card col-12">
+                                <h5 class="card-header">Battery Power change last 24 Hrs</h5>
+                                <div class="card-body">
+                                    <div id="div-battery-wattage-line-chart" style="height: 40vh;">
+                                        <canvas id="canvas-battery-wattage-line-chart"></canvas>
+                                    </div>
+                                    <div id="currentBatteryWattage" class="w-100 text-center mt-2" style="font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>WIFI</h3>
+                    <div>
+                        <div class="row mt-1">
+                            <div class="card col-12">
+                                <h5 class="card-header">WIFI RSSI over period of time</h5>
+                                <div class="card-body">
+                                    <div id="div-wifi-rssi-line-chart" style="height: 40vh;">
+                                        <canvas id="canvas-wifi-rssi-line-chart"></canvas>
+                                    </div>
+                                    <div id="currentWIFIRSSI" class="w-100 text-center mt-2" style="font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <!-- <script src="assets/js/plugins/perfect-scrollbar.min.js"></script> -->
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <!-- <script>
+      var win = navigator.platform.indexOf('Win') > -1;
+      if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+          damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+      }
+    </script> -->
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/material-dashboard.min.js?v=3.0.2"></script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+        <script src="https://momentjs.com/downloads/moment.min.js"></script>
+        <script type="text/javascript">
+            const topicName = "<%= device.topicname %>";
+            const maxload = <%= device.maxload %>;
+            const minload = <%= device.minload %>;
+        </script>
+        <script type="text/javascript" src="/assets/js/device24.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+        <script>
+            $(function () {
+                $("#accordion").accordion({
+                    collapsible: true,
+                    active: 3,
+                    heightStyle: 'content',
+                    beforeActivate: function (event, ui) {
+                        // The accordion believes a panel is being opened
+                        if (ui.newHeader[0]) {
+                            var currHeader = ui.newHeader;
+                            var currContent = currHeader.next('.ui-accordion-content');
+                            // The accordion believes a panel is being closed
+                        } else {
+                            var currHeader = ui.oldHeader;
+                            var currContent = currHeader.next('.ui-accordion-content');
+                        }
+                        // Since we've changed the default behavior, this detects the actual status
+                        var isPanelSelected = currHeader.attr('aria-selected') == 'true';
+
+                        // Toggle the panel's header
+                        currHeader.toggleClass('ui-corner-all', isPanelSelected).toggleClass('accordion-header-active ui-state-active ui-corner-top', !isPanelSelected).attr('aria-selected', ((!isPanelSelected).toString()));
+
+                        // Toggle the panel's icon
+                        currHeader.children('.ui-icon').toggleClass('ui-icon-triangle-1-e', isPanelSelected).toggleClass('ui-icon-triangle-1-s', !isPanelSelected);
+
+                        // Toggle the panel's content
+                        currContent.toggleClass('accordion-content-active', !isPanelSelected)
+                        if (isPanelSelected) { currContent.slideUp(); } else { currContent.slideDown(); }
+
+                        return false; // Cancels the default action
+                    }
+                });
+
+                $('#accordion .ui-accordion-content').show();
+            });
+        </script>
+    </body>
+
+</html>

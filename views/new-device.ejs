@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <link href="/assets/css/all.min.css" rel="stylesheet" />
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LC360</title>
+    </head>
+
+    <body>
+        <section class="container col-7 " id="section1">
+            <form role="form" method="post" action="/add-device">
+
+                <h2 class="text-center mt-5">New Load Cell</h2>
+                <h6 class="text-end"><a href="/device-list">List <i class="fa-solid fa-list me-2 ms-1"></i></a></h6>
+                <div class="row mt-5">
+                    <div class="col-5">
+                        <h6> Load Cell Name</h6>
+                    </div>
+                    <div class="col-7">
+                        <input class="w-100  p-1" type="text" name="cellname" />
+                    </div>
+                    <div class="col-5">
+                        <h6 class="mt-3">Load Cell Type</h6>
+                    </div>
+                    <div class="col-7">
+                        <select class="w-100 mt-3 p-2 border-secondary border-1 bg-white" name="celltype" id="cars">
+                            <option value="Flat">Flat</option>
+                            <option value="Hanging">Hanging</option>
+                            <option value="Bin">Bin</option>
+                        </select>
+                    </div>
+                    <div class="col-5">
+                        <h6 class="mt-3">Location</h6>
+                    </div>
+                    <div class="col-7">
+                        <input class="w-100 mt-3 p-1 " type="text" name="location" />
+                    </div>
+                    <div class="col-5 d-none">
+                        <h6 class="mt-3">Topic Name</h6>
+                    </div>
+                    <div class="col-7 d-none">
+                        <input class="w-100 mt-3 p-1 " type="text" name="topicname" />
+                    </div>
+                    <div class="col-5 d-none">
+                        <h6 class="mt-3">Firmware</h6>
+                    </div>
+                    <div class="col-7 d-none">
+                        <input class="w-100 mt-3 p-1 " type="text" name="firmware" />
+                    </div>
+                    <div class="col-5">
+                        <h6 class="mt-3">Min Threshold (grams)</h6>
+                    </div>
+                    <div class="col-7">
+                        <input class="w-100 mt-3 p-1 " type="text" name="minthreshold" />
+                    </div>
+                    <div class="col-5">
+                        <h6 class="mt-3">Max Threshold (grams)</h6>
+                    </div>
+                    <div class="col-7">
+                        <input class="w-100 mt-3 p-1 " type="text" name="maxthreshold" />
+                    </div>
+                    <div class="col-5">
+                        <h6 class="mt-3">Capacity (grams)</h6>
+                    </div>
+                    <div class="col-7">
+                        <input class="w-100 mt-3 p-1 " type="text" name="capacity" />
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger w-100" onclick="window.location.href='/device-list'">Cancel</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-success w-100">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+        </section>
+
+    </body>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.bundle.min.js"></script>
+
+</html>

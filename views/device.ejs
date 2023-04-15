@@ -1,0 +1,786 @@
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.2
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <title>
+      LC360
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/assets/css/all.min.css" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+
+    <style>
+      @font-face {
+        font-family: 'SEGMENT';
+        src: url('/assets/fonts/7segment.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      .arrows .path1 {
+        fill: transparent;
+        stroke-width: 0px;
+        animation: arrow 2s infinite;
+        -webkit-animation: arrow 2s infinite;
+      }
+
+      .arrows .path2 {
+        stroke: #c04b4b;
+        fill: transparent;
+        stroke-width: 0px;
+        animation: arrow 2s infinite;
+        -webkit-animation: arrow 2s infinite;
+      }
+
+      @keyframes arrow {
+        0% {
+          opacity: 0
+        }
+
+        40% {
+          opacity: 1
+        }
+
+        80% {
+          opacity: 0
+        }
+
+        100% {
+          opacity: 0
+        }
+      }
+
+      @-webkit-keyframes arrow {
+        0% {
+          opacity: 0
+        }
+
+        40% {
+          opacity: 1
+        }
+
+        80% {
+          opacity: 0
+        }
+
+        100% {
+          opacity: 0
+        }
+      }
+
+      .arrows path.a1 {
+        animation-delay: -1s;
+        -webkit-animation-delay: -1s;
+      }
+
+      .arrows path.a2 {
+        animation-delay: -0.5s;
+        -webkit-animation-delay: -0.5s;
+      }
+
+      .blink-soft {
+        animation: blinker 2s linear infinite;
+      }
+
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+
+    </style>
+  </head>
+
+  <body class="g-sidenav-show  bg-gray-200">
+
+    <main class="main-content  position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <!-- Navbar -->
+      <nav class="navbar navbar-dark navbar-main navbar-expand-lg px-0 bg-white w-100" id="navbarBlur" style="position: fixed;top:0;z-index: 1;" navbar-scroll="true">
+        <div class="container py-1">
+          <nav aria-label="breadcrumb">
+            <h3 class="font-weight-bolder mb-0">
+              LC 360
+            </h3>
+          </nav>
+          <div class="collapse  navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                  <li class="breadcrumb-item text-sm  text-danger active  blink-soft">[ <strong style="font-size:10px;"><i class="fa fa-circle"></i></strong> Live ]</li>
+                  <li class="breadcrumb-item text-sm " aria-current="page"><a class="opacity-5 " href="<%= _24HrUrl %>"><i class="fa fa-clock"></i> 24 Hours</a></li>
+                </ol>
+              </nav>
+            </div>
+            <ul class="navbar-nav justify-content-end">
+              <li class="nav-item ">
+                <a href="/" class="nav-link text-body font-weight-bold px-0">
+                  <i class="fa-solid fa-home me-sm-3"></i>
+                </a>
+              </li>
+              <li class="nav-item ">
+                <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                  <i class="fa fa-user me-sm-1"></i>
+                  <span class="d-sm-inline d-none">
+                    <%= name %>
+                  </span>
+                </a>
+              </li>
+              <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                  <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+      <div class="container-fluid py-2 mt-5 pt-5">
+        <div class="row">
+          <div class="col-4" id="load-cell-details">
+            <div class="card">
+              <h5 class="card-header">Load Cell Details</h5>
+              <div class="card-body pt-0">
+                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                  <div class="col-5 text-wrap text-end">Load Cell Name: </div>
+                  <div class="col-7 text-wrap text-start"> <%= device.cellname %></div>
+                </div>
+                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                  <div class="col-5 text-wrap text-end">Load Cell Type: </div>
+                  <div class="col-7 text-wrap text-start">
+                    <img src="/assets/img/type/<%= device.celltype.toLowerCase() %>.png" alt="" class="w-25">
+                    <%= device.celltype.toLowerCase() === 'bin' ? 'SMART BIN' : device.celltype.toLowerCase() === 'flat' ? 'SMART SHELF' : 'SMART HANGER' %>
+                  </div>
+                </div>
+                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                  <div class="col-5 text-wrap text-end">Location: </div>
+                  <div class="col-7 text-wrap text-start"> <%= device.location %></div>
+                </div>
+                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                  <div class="col-5 text-wrap text-end">Topic Name: </div>
+                  <div class="col-7 text-wrap text-start"> <%= device.topicname %></div>
+                </div>
+                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                  <div class="col-5 text-wrap text-end">Firmware: </div>
+                  <div class="col-7 text-wrap text-start">
+                    <% let value=device.firmware.substring(device.firmware.lastIndexOf("/")+1);
+                    let firmware=value.substring(0, value.lastIndexOf(".")) %>
+                    <%= firmware %></div>
+                </div>
+                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                  <div class="col-5 text-wrap text-end">Min/Max Threshold: </div>
+                  <div class="col-7 text-wrap text-start"> <%= device.minload %>/<%= device.maxload %> grams</div>
+                </div>
+                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                  <div class="col-5 text-wrap text-end">Total Capacity: </div>
+                  <div class="col-7 text-wrap text-start">
+                    <%= Math.round(device.capacity/1000) %> Kg/<%= Math.round((device.capacity * 2.20462) / 1000) %> Pounds
+                  </div>
+                </div>
+                <div class="row py-1" style="border-bottom: solid rgba(50, 50, 50, 0.1) 1px;">
+                  <div class="col-5 text-wrap text-end">Calibrated Weight: </div>
+                  <div class="col-7 text-wrap text-start" id="calibrated-weight"> </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-8" id="load-cell-onboard">
+            <div class="card h-100">
+              <div class="card-body">
+                <img src="/assets/img/new-loadcell.png" style="width:100%;" />
+                <div class="row mb-3">
+                  <div class="col-12">
+                    <div id="load-cell-start-date" class="mx-3 text-center d-block" type="text" >&nbsp;</div>
+                    <div id="load-cell-start-time" class="mx-3 text-center d-block" type="text" style="font-size: 50px; color: black;">&nbsp;</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="accordion" class="mt-3">
+          <h3>Weight</h3>
+          <div>
+           
+            <div class="row mt-1">
+              <div class="col-12">
+                <div class="card">
+                  <h5 class="card-header">Heat Map</h5>
+                  <div class="card-body align-items-center d-flex justify-content-center">
+                    <div id="div-weight-heat-map-chart" style='width:66%;'>
+                      <canvas id="canvas-weight-heat-map-chart"></canvas>
+                    </div>
+                    <div class="ps-5">
+                      <style>
+                        .box {
+                          height: 20px;
+                          width: 20px;
+                          border: 1px solid black;
+                        }
+
+                      </style>
+                      <table id="tbl-heat-map">
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-8 card">
+                <div class="card-header">
+                  <h5 class="card-header">Weight change over period of time</h5>
+                  <div class="row" style="margin-top:-51px;">
+                    <div class="col-12 text-end">
+                      <div style="position: relative;">
+                        <div class="d-none row w-75" id="loadcell-info-details" style="position: absolute;z-index: 9999;right: 50px;background-color: #FFF;border: solid gray 1px;padding: 20px;border-radius: 20px;top: 0px;box-shadow: -8px 10px #888888">
+                          <div class="col-4" style="position: relative;">
+                            <img src="/assets/img/parallel-locadcell-icon.jpeg" alt="" style="transform: translateY(-50%) translateX(-50%);position: absolute;top: 50%;left: 50%; width:100%" />
+                          </div>
+                          <div class="col-8">
+                            <table>
+                              <tr>
+                                <td>Capacity:</td>
+                                <td style="padding-left: 10px; text-align: left;">
+                                <%= Math.round(device.capacity/1000) %> Kg
+                              </td>
+                              </tr>
+                              <tr>
+                                <td>Material:</td>
+                                <td style="padding-left: 10px; text-align: left;">Alloy-Steel</td>
+                              </tr>
+                              <tr>
+                                <td>Max Working Current:</td>
+                                <td style="padding-left: 10px; text-align: left;">3 A</td>
+                              </tr>
+                              <tr>
+                                <td>Type:</td>
+                                <td style="padding-left: 10px; text-align: left;">
+                              <%= device.celltype.toLowerCase() === 'bin' ? 'SMART BIN' : device.celltype.toLowerCase() === 'flat' ? 'SMART SHELF' : 'SMART HANGER' %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Rating:</td>
+                                <td style="padding-left: 10px; text-align: left;">IP65</td>
+                              </tr>
+                              <tr>
+                                <td>Excitation voltage Vdc:</td>
+                                <td style="padding-left: 10px; text-align: left;">3 ~ 10</td>
+                              </tr>
+                              <tr>
+                                <td>Operating temperature:</td>
+                                <td style="padding-left: 10px; text-align: left;">-10C ~ +55C</td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="javascript:void(0)" id="loadcell-info" onclick="$('#loadcell-info-details').toggleClass('d-none');" onmouseover="$('#loadcell-info-details').removeClass('d-none');" onmouseout="$('#loadcell-info-details').addClass('d-none');"><i class="fa fa-circle-info fa-2x"></i></a>
+                    </div>
+                  </div>
+                </div>
+               
+                <div class="card-body">
+                  <div id="div-weight-line-chart" style="height:40vh;">
+                    <canvas id="canvas-weight-line-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="card col-4">
+                <h5 class="card-header">Current Weight</h5>
+                <div class="card-body">
+                  <div id="div-weight-latest-chart">
+                    <div id="currentWeight" class="w-100 text-center" style=" font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;margin-top: 8vh;font-size: 10vh;border: solid silver 1vh;border-radius: 30px;">
+                    </div>
+                    <div id="div-abnormal-weight" class="text-center">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="temp-and-humidity-block">Temperature &amp; Humidity</h3>
+          <div class="temp-and-humidity-block">
+            <div class="mt-1 row">
+              <div class="card col-8">
+                <h5 class="card-header">Temperature change over period of time</h5>
+                <div class="card-body">
+                  <div id="div-temperature-line-chart" style="height: 40vh;">
+                    <canvas id="canvas-temperature-line-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="card col-4">
+                <h5 class="card-header">Current Temperature</h5>
+                <div class="card-body">
+                  <div id="div-temperature-chart">
+                    <canvas id="canvas-temperature-latest-chart" style="position: absolute; bottom: 75px;"></canvas>
+                    <div id="currentTemperature" class="w-100 text-center" style="position: absolute; bottom: 10px;font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="card col-8">
+                <h5 class="card-header">Humidity change over period of time</h5>
+                <div class="card-body">
+                  <div id="div-humidity-line-chart" style="height: 40vh;">
+                    <canvas id="canvas-humidity-line-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="card col-4">
+                <h5 class="card-header">Current Humidity</h5>
+                <div class="card-body">
+                  <div id="div-humidity-latest-chart">
+                    <canvas id="canvas-humidity-latest-chart" style="position: absolute; bottom: 75px;"></canvas>
+                    <div id="currentHumidity" class="w-100 text-center" style="position: absolute; bottom: 10px;font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="battery-block">Battery</h3>
+          <div class="battery-block">
+            <div class="row">
+              <div class="col-12 text-end">
+                <div style="position: relative;">
+                  <div class="d-none row w-50" id="battery-info-details" style="position: absolute;z-index: 9999;right: 50px;background-color: #FFF;border: solid gray 1px;padding: 20px;border-radius: 20px;top: 0px;box-shadow: -8px 10px #888888">
+                    <div class="col-3" style="position: relative;">
+                      <img src="/assets/img/li-ion-battery.png" alt="" style="transform: translateY(-50%) translateX(-50%);position: absolute;top: 50%;left: 50%;" />
+                    </div>
+                    <div class="col-9">
+                      <table>
+                        <tr>
+                          <td>Standard Voltage</td>
+                          <td style="padding-left: 10px; text-align: left;">3.7 V</td>
+                        </tr>
+                        <tr>
+                          <td>Rated Capacity</td>
+                          <td style="padding-left: 10px; text-align: left;">10000 mAh</td>
+                        </tr>
+                        <tr>
+                          <td>Max Working Current</td>
+                          <td style="padding-left: 10px; text-align: left;">3 A</td>
+                        </tr>
+                        <tr>
+                          <td>Over current protection</td>
+                          <td style="padding-left: 10px; text-align: left;">2~3 A</td>
+                        </tr>
+                        <tr>
+                          <td>Overcharge limit pressure</td>
+                          <td style="padding-left: 10px; text-align: left;">4.25±0.05 V</td>
+                        </tr>
+                        <tr>
+                          <td>Over-voltage limit pressure</td>
+                          <td style="padding-left: 10px; text-align: left;">2.45±0.30 V</td>
+                        </tr>
+                        <tr>
+                          <td> Standard Charging</td>
+                          <td style="padding-left: 10px; text-align: left;">0.2C (8 hours)</td>
+                        </tr>
+                        <tr>
+                          <td>Fast charging</td>
+                          <td style="padding-left: 10px; text-align: left;">0.5C (2.5 hours)</td>
+                        </tr>
+                        <tr>
+                          <td>Min/Max operating temperature </td>
+                          <td style="padding-left: 10px; text-align: left;">-40C ~ 85C</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <a href="javascript:void(0)" id="battery-info" onclick="$('#battery-info-details').toggleClass('d-none');" onmouseover="$('#battery-info-details').removeClass('d-none');" onmouseout="$('#battery-info-details').addClass('d-none');"><i class="fa fa-circle-info fa-2x"></i></a>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="card col-8">
+                <h5 class="card-header">Battery % over period of time</h5>
+                <div class="card-body">
+                  <div id="div-batterypercentage-line-chart" style="height: 40vh;">
+                    <canvas id="canvas-batterypercentage-line-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="card col-4">
+                <h5 class="card-header">Current Battery %</h5>
+                <div class="card-body">
+                  <div id="div-batterypercentage-latest-chart">
+                    <div id="canvas-batterypercentage-latest-chart" style=" position: absolute; bottom: 75px;width: 100%;left: 0; text-align: center;">
+                      <svg class="arrows" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="height: 30vh;" xml:space="preserve">
+                        <g class='battery'>
+                          <path fill="#66F" d="M42.536,4H36V0H24v4h-6.536C15.554,4,14,5.554,14,7.464v49.072C14,58.446,15.554,60,17.464,60h25.071 C44.446,60,46,58.446,46,56.536V7.464C46,5.554,44.446,4,42.536,4z M44,56.536C44,57.344,43.343,58,42.536,58H17.464 C16.657,58,16,57.344,16,56.536V7.464C16,6.656,16.657,6,17.464,6H24h12h6.536C43.343,6,44,6.656,44,7.464V56.536z" />
+                        </g>
+                        <g class="charge-lines">
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="54" charge="1" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="50" charge="9" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="46" charge="17" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="42" charge="25" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="38" charge="33" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="34" charge="41" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="30" charge="49" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="26" charge="57" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="22" charge="65" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="18" charge="73" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="14" charge="81" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="10" charge="89" fill="#0F0" style="display: none;" />
+                          <rect xmlns="http://www.w3.org/2000/svg" width="26" height="3" rx="1" ry="1" x="17" y="6" charge="97" fill="#0F0" style="display: none;" />
+                        </g>
+                        <g class="charging path1" style="display: none;">
+                          <path style="stroke:rgb(20, 117, 33);stroke-width:2" d="M37,29h-3V17.108c0.013-0.26-0.069-0.515-0.236-0.72c-0.381-0.467-1.264-0.463-1.642,0.004 c-0.026,0.032-0.05,0.066-0.072,0.103L22.15,32.474c-0.191,0.309-0.2,0.696-0.023,1.013C22.303,33.804,22.637,34,23,34h5 l0.002,12.929h0.001c0.001,0.235,0.077,0.479,0.215,0.657C27.407,47.833,27.747,48,28.058,48c0.305,0,0.636-0.16,0.825-0.398 c0.04-0.05,0.074-0.103,0.104-0.159l8.899-16.979c0.163-0.31,0.151-0.682-0.03-0.981S37.35,29,37,29z" />
+                        </g>
+                        <g style='fill:#c04b4b' class='discharging path2' transform="translate(23, 25) scale(1.5)">
+                          <path d="M7.91769231,0.994615385 L4.61538462,4.29692308 L1.31307692,0.994615385 C1.01124701,0.7030983 0.531473248,0.707267405 0.234754942,1.00398571 C-0.0619633645,1.30070402 -0.0661324689,1.78047778 0.225384615,2.08230769 L4.07153846,5.92846154 C4.37192296,6.22875534 4.85884627,6.22875534 5.15923077,5.92846154 L9.00538462,2.08230769 C9.20535122,1.88917348 9.28554815,1.60317085 9.21515166,1.33422514 C9.14475517,1.06527942 8.93472058,0.855244834 8.66577486,0.784848341 C8.39682915,0.714451848 8.11082652,0.794648781 7.91769231,0.994615385 Z" id="Path"></path>
+                          <path d="M7.91769231,3.994615385 L4.61538462,7.29692308 L1.31307692,3.994615385 C1.01124701,3.7030983 0.531473248,3.707267405 0.234754942,4.00398571 C-0.0619633645,4.30070402 -0.0661324689,4.78047778 0.225384615,5.08230769 L4.07153846,8.92846154 C4.37192296,9.22875534 4.85884627,9.22875534 5.15923077,8.92846154 L9.00538462,5.08230769 C9.20535122,4.88917348 9.28554815,4.60317085 9.21515166,4.33422514 C9.14475517,4.06527942 8.93472058,3.855244834 8.66577486,3.784848341 C8.39682915,3.714451848 8.11082652,3.794648781 7.91769231,3.994615385 Z" id="Path"></path>
+                        </g>
+                        <g class='battery-warning' transform="translate(10, 40) scale(0.2)" style="display: none;">
+                          <polygon style="fill:#FFA418;" points="25,0 0,50 28,50" />
+                          <polygon style="fill:#FF8A1E;" points="25,0 25,50 50,50" />
+                          <g>
+                            <circle style="fill:#324860;" cx="25" cy="40" r="2" />
+                            <rect x="23" y="15" style="fill:#324860;" width="4" height="20" />
+                          </g>
+                        </g>
+                      </svg>
+                    </div>
+                    <div id="currentBatteryPercentage" class="w-100 text-center" style="position: absolute; bottom: 10px;font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="card col-6">
+                <h5 class="card-header">Battery Voltage change over period of time</h5>
+                <div class="card-body">
+                  <div id="div-battery-voltage-line-chart" style="height: 40vh;">
+                    <canvas id="canvas-battery-voltage-line-chart"></canvas>
+                  </div>
+                  <div id="currentBatteryVoltage" class="w-100 text-center mt-2" style="font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;"></div>
+                </div>
+              </div>
+              <div class="card col-6">
+                <h5 class="card-header">Battery Current change over period of time</h5>
+                <div class="card-body">
+                  <div id="div-battery-current-line-chart" style="height: 40vh;">
+                    <canvas id="canvas-battery-current-line-chart"></canvas>
+                  </div>
+                  <div id="currentBatteryCurrent" class="w-100 text-center mt-2" style="font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="card col-12">
+                <h5 class="card-header">Battery Power change over period of time</h5>
+                <div class="card-body">
+                  <div id="div-battery-wattage-line-chart" style="height: 40vh;">
+                    <canvas id="canvas-battery-wattage-line-chart"></canvas>
+                  </div>
+                  <div id="currentBatteryWattage" class="w-100 text-center mt-2" style="font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>WIFI</h3>
+          <div>
+            <div class="row mt-1">
+              <div class="card col-12">
+                <div class="row card-header">
+                  <div class="col-6">
+                    <img src="/assets/img/wifi-icon.png" alt="" class="mt-1 ms-1 bg-white" style="width: 70px;">
+                    <h5 class="w-50 d-inline-block ms-4">WIFI Analyzer</h5>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="row d-none " id="div-wifi-info">
+                          <div class="col-12">
+                            <div style="border-radius: 10px;border: 2px solid rgb(98, 151, 98); padding: 0px 20px; width: fit-content; float: right">
+                              <table class="text-center">
+                                <tr>
+                                  <td colspan="5">
+                                    <h6 class="text-center mt-3" style="margin-bottom:0px;">RSSI</h6>
+                                  </td>
+                                  <td rowspan="7">
+                                    <table style="margin-left: 15px; margin-right: 5px;" class="text-start text-nowrap">
+                                      <tr>
+                                        <td>
+                                          <small class="border border1 px-2 me-1" style="background-color: rgb(0, 128, 0);"></small>
+                                        </td>
+                                        <td>
+                                          <h6 class=" text-sm d-inline-block m-0">Very Good</h6>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <small class="border border1 px-2 me-1" style="background-color: rgb(115, 211, 115);"></small>
+                                        </td>
+                                        <td>
+                                          <h6 class=" text-sm d-inline-block m-0">Good</h6>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <small class="border border1 px-2 me-1" style="background-color: rgb(255, 255, 0);"></small>
+                                        </td>
+                                        <td>
+                                          <h6 class=" text-sm d-inline-block m-0">Week</h6>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <small class="border border1 px-2 me-1" style="background-color: rgb(221, 164, 123);"></small>
+                                        </td>
+                                        <td>
+                                          <h6 class=" text-sm d-inline-block m-0">Poor</h6>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <small class="border border1 px-2 me-1" style="background-color: rgb(255, 0, 0);"></small>
+                                        </td>
+                                        <td>
+                                          <h6 class=" text-sm d-inline-block m-0">No Connection</h6>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td colspan="5">
+                                    <img src="/assets/img/right-arrow.svg" style="width:270px;">
+                                  </td>
+                                </tr>
+                                <tr class="text-small">
+                                  <td class="px-1">-30dBm</td>
+                                  <td class="px-1">-60dBm</td>
+                                  <td class="px-1">-70dBm</td>
+                                  <td class="px-1">-80dBm</td>
+                                  <td class="px-1">-90dBm</td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(0, 128, 0);">&nbsp;</td>
+                                  <td style="background-color: rgb(115, 211, 115);">&nbsp;</td>
+                                  <td style="background-color: rgb(255, 255, 0);">&nbsp;</td>
+                                  <td style="background-color: rgb(221, 164, 123);">&nbsp;</td>
+                                  <td style="background-color: rgb(255, 0, 0);">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <img style="width:25px; height:25px;" src="/assets/img/satisfaction/1.png" class="mt-2">
+                                  </td>
+                                  <td>&nbsp;</td>
+                                  <td>
+                                    <img style="width:25px; height:25px;" src="/assets/img/satisfaction/3.png" class="mt-2">
+                                  </td>
+                                  <td>&nbsp;</td>
+                                  <td>
+                                    <img style="width:25px; height:25px;" src="/assets/img/satisfaction/4.png" class="mt-2">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td colspan="5">
+                                    <img src="/assets/img/left-arrow.svg" style="width:270px;">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td colspan="5">
+                                    <h6 class="text-center " style="margin-top: 0px;">Connection Health</h6>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-auto text-end">
+                        <a href="javascript:void(0)" id="lbl-wifi-info" onclick="$('#div-wifi-info').toggleClass('d-none');" onmouseover="$('#div-wifi-info').removeClass('d-none');" onmouseout="$('#div-wifi-info').addClass('d-none');"><i class="fa fa-circle-info fa-2x"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <table class="table" id="wifi-ssid-table">
+                    <thead class="text-center">
+                      <tr>
+                        <th>Radio</th>
+                        <th>Bandwidth</th>
+                        <th>SSID</th>
+                        <th>RSSI</th>
+                        <th>Channel</th>
+                        <th>Encryption</th>
+                        <th>QoS</th>
+                        <th>Last Seen Time</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="card col-12">
+                <h5 class="card-header">WIFI RSSI over period of time</h5>
+                <div class="card-body">
+                  <div id="div-wifi-rssi-line-chart" style="height: 40vh;">
+                    <canvas id="canvas-wifi-rssi-line-chart"></canvas>
+                  </div>
+                  <div id="currentWIFIRSSI" class="w-100 text-center mt-2" style="font-family: SEGMENT;left: 0;font-weight: 600;color: #555;letter-spacing: 4px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="card col-12">
+                <h5 class="card-header">WIFI Scanner</h5>
+                <svg id="radialScatter" x="0px" y="0px" viewBox="0 0 100 100" style="height: 75vh;">
+                  <g>
+                    <rect x="45" y="45" rx="2" ry="2" width="10" height="10" fill="#c0c0c0" stroke="#999" stroke-width="0.5" />
+                    <circle cx="50" cy="50" r="3" fill="#999" stroke="#555" stroke-width="0.5" />
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <h3>Log</h3>
+          <div>
+            <div class="row mt-1 mb-2">
+              <div class="card col-12 ">
+                <div class="card-header">
+                  <img src="/assets/img/log.png" alt="" class="mt-2 ms-1" style="width: 40px;">
+                  <h5 class="w-50 d-inline-block">Logger View</h5>
+                </div>
+                <div class="card-body mb-3" style="background-color:#444; color: #ccc;">
+                  <div id="div-device-message-log" style="height: 40vh; overflow: auto;">
+                    <ul style="list-style:none;">
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!--   Core JS Files   -->
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <!-- <script src="assets/js/plugins/perfect-scrollbar.min.js"></script> -->
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <!-- <script>
+      var win = navigator.platform.indexOf('Win') > -1;
+      if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+          damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+      }
+    </script> -->
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="/assets/js/material-dashboard.min.js?v=3.0.2"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+      const topicName = "<%= device.topicname %>";
+      const maxload = <%= device.maxload %>;
+      const minload = <%= device.minload %>;
+    </script>
+    <script type="text/javascript" src="/assets/js/device.js"></script>
+    <script>
+      $(function () {
+        $("#accordion").accordion({
+          collapsible: true,
+          active: 3,
+          heightStyle: 'content',
+          beforeActivate: function (event, ui) {
+            // The accordion believes a panel is being opened
+            if (ui.newHeader[0]) {
+              var currHeader = ui.newHeader;
+              var currContent = currHeader.next('.ui-accordion-content');
+              // The accordion believes a panel is being closed
+            } else {
+              var currHeader = ui.oldHeader;
+              var currContent = currHeader.next('.ui-accordion-content');
+            }
+            // Since we've changed the default behavior, this detects the actual status
+            var isPanelSelected = currHeader.attr('aria-selected') == 'true';
+
+            // Toggle the panel's header
+            currHeader.toggleClass('ui-corner-all', isPanelSelected).toggleClass('accordion-header-active ui-state-active ui-corner-top', !isPanelSelected).attr('aria-selected', ((!isPanelSelected).toString()));
+
+            // Toggle the panel's icon
+            currHeader.children('.ui-icon').toggleClass('ui-icon-triangle-1-e', isPanelSelected).toggleClass('ui-icon-triangle-1-s', !isPanelSelected);
+
+            // Toggle the panel's content
+            currContent.toggleClass('accordion-content-active', !isPanelSelected)
+            if (isPanelSelected) { currContent.slideUp(); } else { currContent.slideDown(); }
+
+            return false; // Cancels the default action
+          }
+        });
+
+        $('#accordion .ui-accordion-content').show();
+      });
+
+
+    </script>
+  </body>
+
+</html>

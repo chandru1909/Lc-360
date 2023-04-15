@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+    <link href="/assets/css/all.min.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LC360</title>
+  </head>
+  <style>
+    @media (min-width: 390px) {
+      .navbar-expand-lg .navbar-collapse {
+        display: flex !important;
+        flex-basis: auto;
+      }
+
+      .navbar-nav {
+        flex-direction: row;
+      }
+    }
+
+  </style>
+
+  <body>
+
+    <section class="" id="section2">
+      <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 position-fixed w-100 bg-white" id="navbarBlur" navbar-scroll="true" style="z-index: 1;top:0">
+          <div class="container py-1 px-3">
+            <nav aria-label="breadcrumb">
+              <h3 class="font-weight-bolder mb-0">LC 360</h3>
+            </nav>
+            <a href="/" class="nav-link text-md font-weight-bold ms-5 ">
+              <i class="fa-solid fa-home me-2"></i>
+              Home
+            </a>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2  me-sm-4  d-flex justify-content-end" id="navbar">
+              <ul class="navbar-nav">
+                <li class="nav-item d-flex align-items-center">
+                  <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                    <i class="fa fa-user me-sm-1"></i>
+                    <h6 class="d-sm-inline d-none"><%= name %></h6>
+                  </a>
+                </li>
+                <li class="nav-item d-flex align-items-center ps-3" title="Sign-Out">
+                  <a href="/sign-out" class="nav-link text-body font-weight-bold px-0">
+                    <i class="fa fa-power-off me-sm-1"></i>
+                  </a>
+                </li>
+                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                  <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                    <div class="sidenav-toggler-inner">
+                      <i class="sidenav-toggler-line"></i>
+                      <i class="sidenav-toggler-line"></i>
+                      <i class="sidenav-toggler-line"></i>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- End Navbar -->
+        <div class="container-fluid py-4 mt-5 pt-5">
+          <div class="row">
+            <div class="col-12">
+              <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg">
+                    <h6 class="d-inline-block text-white text-capitalize ps-3 mt-1 w-75" style="float:left">Load Cell List</h6>
+                    <a href="/new-device" class="nav-link text-white font-weight-bold" style="text-align:right;">
+                      Add
+                      <i class="fa fa-add me-sm-1"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                  <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-2">
+                      <thead>
+                        <tr class="text-center">
+                          <th class="text-uppercase text-secondary  font-weight-bolder opacity-7">Name</th>
+                          <th class="text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">Type</th>
+                          <th class="text-uppercase text-secondary  font-weight-bolder opacity-7">Location</th>
+                          <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">Topic</th>
+                          <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">Firmware</th>
+                          <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">Min Threshold</th>
+                          <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">Max Threshold</th>
+                          <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">Capacity</th>
+                          <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7"></th>
+                          <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">Update Firmware</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for(rec of list) { %>
+                        <tr class="text-center">
+                          <td>
+                            <%= rec["cellname"] %>
+                          </td>
+                          <td>
+                            <%= rec["celltype"] === 'Flat' ? "Smart Shelf" : rec["celltype"] === 'Bin' ? "Smart Bin" : "Smart Hanger" %>
+                          </td>
+                          <td>
+                            <%= rec["location"] %>
+                          </td>
+                          <td>
+                            <%= rec["topicname"] %>
+                          </td>
+                          <td class="text-wrap" style="width: 150px;">
+                            <% let value=rec["firmware"].substring(rec["firmware"].lastIndexOf("/")+1);
+                            let firmware=value.substring(0, value.lastIndexOf(".")) %>
+                            <%= firmware %>
+                          </td>
+                          <td>
+                            <%= rec["minload"] %>
+                          </td>
+                          <td>
+                            <%= rec["maxload"] %>
+                          </td>
+                          <td>
+                            <%= rec["capacity"] %>
+                          </td>
+                          <td>
+                            <a href="/edit_loadcell/<%= rec.id %>" class="me-3"><i class="fa fa-edit"></i></a>
+                            <a href="/delete_loadcell/<%= rec.id %>"><i class="fa fa-trash"></i></a>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="checkbox-update" value="<%= rec.id %>" autocomplete="off">
+                          </td>
+                        </tr>
+                        <% } %>
+                        <tr>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td class="text-center"><a href="javascript:void(0)" class="bg-dark text-white px-3 py-2 rounded bulk-update" onclick="bulk_update()" >Update</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </section>
+  </body>
+  <script src="assets/js/core/bootstrap.min.js"></script>
+  <script src="./assets/js/core/popper.min.js"></script>
+  <script src="assets/js/core/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script>
+    function bulk_update(){
+      let updateIds=[];
+      $('input.checkbox-update:checkbox:checked').each(function () {
+          var sThisVal = $(this).val();
+          updateIds.push(sThisVal)
+      });
+      if(updateIds == ""){
+        alert("Please select the loadcells to update.")
+      }else{
+       let ids=JSON.stringify(updateIds);
+       window.location.href="/bulkupdate?ids="+ids;
+      }
+    }
+  </script>
+
+</html>

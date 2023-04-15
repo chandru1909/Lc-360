@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+        <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+        <link href="/assets/css/all.min.css" rel="stylesheet" />
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LC360</title>
+      </head>
+      <style>
+        @media (min-width: 390px) {
+          .navbar-expand-lg .navbar-collapse {
+            display: flex !important;
+            flex-basis: auto;
+          }
+    
+          .navbar-nav {
+            flex-direction: row;
+          }
+        }
+        #firmware-activity-info h6{
+                font-size: 12px;
+            }
+    
+      </style>
+<body>
+
+    
+    <section class="" id="section2">
+      <div id="firmware-loader"  style="position:fixed; top: 0px; left:0px; right:0px; bottom:0px; z-index: 1000; background-color: rgba(200, 200, 50, 0.7); text-align: center;">
+        <img src="/assets/img/firmware-latest.svg" alt="" class="" style="width: 50vw; margin-top: 50vh; transform: translateY(-50%);">
+        <img src="/assets/img/processing.gif" alt="" style="position: absolute; width: 100px; left: 46%; top: 43vh;">
+        <div id="firmware-info" style="position: absolute; top:72vh; width: 100%; ">
+           
+        </div>
+    </div>
+        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+          <!-- Navbar -->
+          <nav class="navbar navbar-main navbar-expand-lg px-0 position-fixed w-100 bg-white" id="navbarBlur" navbar-scroll="true" style="z-index: 1;top:0">
+            <div class="container py-1 px-3">
+              <nav aria-label="breadcrumb">
+                <h3 class="font-weight-bolder mb-0">LC 360</h3>
+              </nav>
+              <a href="/" class="nav-link text-md font-weight-bold ms-5 ">
+                <i class="fa-solid fa-home me-2"></i>
+                Home
+              </a>
+              <div class="collapse navbar-collapse mt-sm-0 mt-2  me-sm-4  d-flex justify-content-end" id="navbar">
+                <ul class="navbar-nav">
+                  <li class="nav-item d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                      <i class="fa fa-user me-sm-1"></i>
+                      <h6 class="d-sm-inline d-none"><%= name %></h6>
+                    </a>
+                  </li>
+                  <li class="nav-item d-flex align-items-center ps-3" title="Sign-Out">
+                    <a href="/sign-out" class="nav-link text-body font-weight-bold px-0">
+                      <i class="fa fa-power-off me-sm-1"></i>
+                    </a>
+                  </li>
+                  <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                      <div class="sidenav-toggler-inner">
+                        <i class="sidenav-toggler-line"></i>
+                        <i class="sidenav-toggler-line"></i>
+                        <i class="sidenav-toggler-line"></i>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+
+          <div class="container mt-5 pt-5">
+            <table class="table table-bordered text-center">
+                <thead class="table-dark">
+                  <tr>
+                    <td>Topic Name</td> 
+                    <td>Path</td> 
+                    <td>Select</td> 
+                </tr>
+                </thead>
+                <tbody>
+                    <% data.forEach(x=>{%>
+                    <tr id="<%=x.id%>">
+                        <td><%=x.topicname%> <span class="process"></span></td>
+                        <td><input type="text" class="updateFirmware <%=x.id%>" topicName="<%=x.topicname%>" onblur="check_url(this)"><p class="mb-0" style="color:red"></p></td>
+                        <td><input type="checkbox" name="" class="checkbox-update" autocomplete="off" value="<%=x.id%>"></td>
+                    </tr>
+                   <% })%>
+                   <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><button class="btn btn-dark" id="update-button" onclick="bulk_update()"><%= (data.length === 1)?  "FIRMWARE UPDATE" : "Bulk FIRMWARE Update" %></button></td>
+                   </tr>
+                </tbody>
+              </table>
+              
+
+              <div id="firmware-activity" class="mt-5 d-none">
+                <section class="overflow-hidden">
+                    <div class="row p-2 text-white bg-dark">
+                      <h6 class="text-white text-center col-2 mb-0">
+                       <span>Topic Name</span>
+                   </h6>
+                   <h6 class="text-white text-center col-3 mb-0">
+                    <span>Loadcell/Type</span>
+                </h6>
+                    <h6 class="text-white text-center col-2 mb-0">
+                         <img src="/assets/img/fota-seq.svg" class="me-2" style="width:25px"/><span>FOTA Sequence</span>
+                    </h6>
+                       <h6 class="text-white text-center col-3 mb-0">
+                        <img src="/assets/img/fota-file.svg" class="me-1" style="width:25px"/><span>File Name</span>
+                    </h6> 
+                       <h6 class="text-white text-center col-2 mb-0">
+                    <img src="/assets/img/time.svg" class="me-1" style="width:30px"/>     <span>Time</span>
+                    </h6>
+                    </div>
+                    <main id="firmware-activity-info">
+                      
+                    </main>
+                </section>
+            </div>
+          </div>
+
+          </main>
+          </section>
+          <script src="assets/js/core/bootstrap.bundle.min.js"></script>
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+          <script>
+        $('#firmware-loader').hide();
+
+             function checkComplete(id, module, topicId) {
+            $.post('/charts/getactivity', { id: id }).done(function (response) {
+                if (response.output.status === 100) {
+                  $("#firmware-loader").hide();
+                  $("#firmware-activity").removeClass('d-none');
+                  $("#update-button").removeAttr('disabled');
+                    if(module === "Firmware Update"){
+                     $("#"+topicId).children("td:nth-child(1)").children("span").html("<img src='/assets/img/success.svg' class='ms-2' style='width:25px;' alt='loading' />");
+
+                     let topicName=response.output.topicname;
+                     let celltype=response.output.celltype;
+                     let cellname=response.output.cellname;
+                    let details=response.output.details.substring(7);
+                        details=details.substring(details.lastIndexOf('/')+1);
+                        for(x of response.output.events){
+                            if(x.name === "FIRMWARE_UPGRADE_REQUEST_SENT"){
+                                x.name = "FOTA_INSTANTIATED"
+                            }
+                            if(x.name === "OTA_STARTED"){
+                                x.name = "FOTA_STARTTIME"
+                            }
+                            if(x.name === "OTA_ENDED"){
+                                x.name = "FOTA_ENDTIME"
+                            }
+                            if(x.name === "OTA_FAILED"){
+                                x.name = "FOTA_FAILED"
+                            }
+                            if(x.name === "GET_UPDATED_VERSION"){
+                                x.name = "FOTA_SUCCESS"
+                            }
+                            if(x.name === "PRE_VERSION"){
+                                x.name = "PREVIOUS VERSION";
+                            }
+                            if(x.name === "POST_VERSION"){
+                                x.name = "UPDATED VERSION";
+                            }
+                        }
+                        let status="success";
+                        if(response.output.events.length <= 5){
+                            status="warning";
+                        }
+                                    $("#firmware-activity-info").prepend(`<div class="border border-2 rounded border-${status} my-2" id="${response.output.starttime}">
+                                </div>`)
+                                response.output.events.reverse().forEach(y=>{
+                                if(y.name === "FOTA_SUCCESS"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                                <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${cellname +'/' +celltype}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted "><img src="/assets/img/success.svg" class="me-2" style="width:25px" />${details}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                        }else if(y.name === "PREVIOUS VERSION" || y.name === "UPDATED VERSION"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                                 <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${cellname +'/' +celltype}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${y.payload.substring(y.payload.lastIndexOf('/')+1, y.payload.lastIndexOf("."))}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)          
+                                }else if(y.name !== "GET_CURRENT_VERSION" && y.name !== "PRE_VERSION" && y.name !== "POST_VERSION"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                                <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${cellname +'/' +celltype}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${details}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                }
+                            
+                            })
+
+                    }
+                }
+                else if (response.output.status === -100) {
+                  $("#firmware-loader").hide();
+                  $("#firmware-activity").removeClass('d-none');
+                  $("#update-button").removeAttr('disabled');
+                    if(module === "Firmware Update"){
+                        if(response.output.events.length === 6){
+                          $("#"+topicId).children("td:nth-child(1)").children("span").html("<img src='/assets/img/failed.svg' class='ms-2' style='width:25px;' alt='loading' />");
+                        }else{
+                          $("#"+topicId).children("td:nth-child(1)").children("span").html("<img src='/assets/img/broken-link.svg' class='ms-2' style='width:25px;' alt='loading' />");
+                        }
+                      let topicName=response.output.topicname;
+                      let celltype=response.output.celltype;
+                     let cellname=response.output.cellname;
+                      let details=response.output.details.substring(7);
+                        details=details.substring(details.lastIndexOf('/')+1);
+                        for(x of response.output.events){
+                            if(x.name === "FIRMWARE_UPGRADE_REQUEST_SENT"){
+                                x.name = "FOTA_INSTANTIATED"
+                            }
+                            if(x.name === "OTA_STARTED"){
+                                x.name = "FOTA_STARTTIME"
+                            }
+                            if(x.name === "OTA_ENDED"){
+                                x.name = "FOTA_ENDTIME"
+                            }
+                            if(x.name === "OTA_FAILED"){
+                                x.name = "FOTA_FAILED"
+                            }
+                            if(x.name === "PRE_VERSION"){
+                                x.name = "PREVIOUS VERSION";
+                            }
+                            if(x.name === "POST_VERSION"){
+                                x.name = "UPDATED VERSION";
+                            }
+                        }
+                        let status="danger";
+                        if(response.output.events.length <= 5){
+                            status="warning";
+                        }
+                                    $("#firmware-activity-info").prepend(`<div class="border border-2 rounded border-${status} my-2" id="${response.output.starttime}">
+                                </div>`)
+                                response.output.events.reverse().forEach(y=>{
+                                if(y.name === "FOTA_FAILED"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                                <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${cellname +'/' +celltype}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted "><img src="/assets/img/failed.svg" class="me-2" style="width:25px" />${details}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                }else if(y.name === "PREVIOUS VERSION" || y.name === "UPDATED VERSION"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                                <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${cellname +'/' +celltype}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${y.payload.substring(y.payload.lastIndexOf('/')+1, y.payload.lastIndexOf("."))}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                }else if(y.name !== "GET_CURRENT_VERSION" && y.name !== "PRE_VERSION" && y.name !== "POST_VERSION"){
+                                    $("#"+response.output.starttime).append(`
+                                <div class="row  mt-2 border-bottom">
+                                                <h6 class="col-2 text-center text-muted ">${topicName}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${cellname +'/' +celltype}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${y.name}</h6>
+                                                <h6 class="col-3 text-center text-muted ">${details}</h6>
+                                                <h6 class="col-2 text-center text-muted ">${new Date(parseInt(y.eventtime)).toLocaleString()}</h6>
+                                            </div>`)
+                                }
+                            })
+                    }
+                }
+                else {
+                    setTimeout(function () {
+                        checkComplete(id, module, topicId);
+                    }, 1000);
+                }
+            });
+        }
+
+
+            function bulk_update(){
+                let updateIds=[];
+                    $('input.checkbox-update:checkbox:checked').each(function () {
+                        var sThisVal = $(this).val();
+                        updateIds.push(sThisVal)
+                    });
+                    if(updateIds == ""){
+                        alert("Please select the loadcells to update.")
+                    }else{
+                        let errors=[];
+                        updateIds.forEach(id=>{
+                            let file=$("#"+id).children("td:nth-child(2)").children("input").val();
+                            if(file === ""){
+                               errors.push("error");
+                               $("#"+id).children("td:nth-child(2)").children("p").html("Please Enter the path.")
+                            }else if(file.substring(file.length-4)!==".bin"){
+                                errors.push("error");
+                               $("#"+id).children("td:nth-child(2)").children("p").html("Please Enter the valid file.")
+                            }else{
+                               $("#"+id).children("td:nth-child(2)").children("p").html("")
+                            }
+                        })
+                       if(errors.length === 0){
+                        $("#update-button").prop("disabled", true);
+                         $("#firmware-loader").show();
+                        //firmware update
+                        updateIds.forEach(id=>{
+                      let status=$("#"+id).children("td:nth-child(1)").children("span").html("<img src='/assets/img/success-processing.gif' class='ms-2' style='width:25px;' alt='loading' />");
+                          let path=$("#"+id).children("td:nth-child(2)").children("input").val();
+                          let topicName=$("#"+id).children("td:nth-child(2)").children("input").attr("topicName");
+                          $.post('/charts/firmware', { topicName: topicName, path: path }).done(function (response) {
+                                setTimeout(function () {
+                                    checkComplete(response.output.id, 'Firmware Update', id);
+                                }, 1000);
+
+                            }).catch(function (err) {
+
+                            });
+                        })
+                      }
+                    }
+            }
+
+            function check_url(ctrl){
+                let checkbox=$(ctrl).parent().next("td").children("input:checkbox");
+                if($(checkbox).is(':checked')){
+                let path=$(ctrl).val();
+                if(path === ""){
+                    $(ctrl).siblings("p").html("Please Enter the path.")
+                }else if(path.substring(path.length-4)!==".bin"){
+                    $(ctrl).siblings("p").html("Please Enter the valid file.")
+                }else{
+                    $(ctrl).siblings("p").html("")
+                }
+            }else{
+                $(ctrl).siblings("p").html("")
+            }
+            }
+        </script>
+</body>
+</html>
